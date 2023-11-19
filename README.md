@@ -531,12 +531,399 @@ Tes dengan ``lynx www.granz.channel.b10.com/its`` di Client
 
 ## Soal 12
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/1007c538-d171-4dfe-96df-e8df8f3ca2bd)
+
 IP (tidak allow) Deny
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/560f9bb1-722f-47e9-bd78-b97545f131cc)
+
 FIXED address pada Himmel
+
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/b1e6dc91-e4e1-4a35-a530-6d6fe2d183cd)
 
+## Soal 13
+### Script
+```sh
+# Db akan diakses oleh 3 worker 
+echo '# This group is read both by the client and the server
+# use it for options that affect everything
+[client-server]
+
+# Import all .cnf files from configuration directory
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+# Options affecting the MySQL server (mysqld)
+[mysqld]
+skip-networking=0
+skip-bind-address
+' > /etc/mysql/my.cnf
+```
+
+Ganti ``[bind-address]`` pada file ``/etc/mysql/mariadb.conf.d/50-server.cnf`` menjadi ``0.0.0.0`` 
+
+```sh 
+cd /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Changes
+bind-address            = 0.0.0.0
+```
+
+Restart mysql nya ``service mysql restart``
+
+Jalankan perintah berikut: 
+
+```sh
+mysql -u root -p
+Enter password: 
+
+CREATE USER 'kelompokb10'@'%' IDENTIFIED BY 'passwordb10';
+CREATE USER 'kelompokb10'@'localhost' IDENTIFIED BY 'passwordb10';
+CREATE DATABASE dbkelompokb10;
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokb10'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokb10'@'localhost';
+FLUSH PRIVILEGES;
+```
+### Result
+
+## Soal 14
+### Script
+Install composer
+
+```sh
+wget https://getcomposer.org/download/2.0.13/composer.phar
+chmod +x composer.phar
+mv composer.phar /usr/local/bin/composer
+```
+
+Install ``git`` dan cloning terhadap [resource](https://github.com/martuafernando/laravel-praktikum-jarkom) yang telah diberikan 
+
+```sh
+apt-get install git -y
+cd /var/www && git clone https://github.com/martuafernando/laravel-praktikum-jarkom
+cd /var/www/laravel-praktikum-jarkom && composer update
+```
+
+Setelah melakukan ``clone`` pada resource tersebut. Selanjutnya lakukan konfigurasi pada ``worker``
+
+```sh 
+cd /var/www/laravel-praktikum-jarkom && cp .env.example .env
+echo 'APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=192.183.2.1
+DB_PORT=3306
+DB_DATABASE=dbkelompokb10
+DB_USERNAME=kelompokb10
+DB_PASSWORD=passwordb10
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+PUSHER_APP_CLUSTER=mt1
+
+VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+VITE_PUSHER_HOST="${PUSHER_HOST}"
+VITE_PUSHER_PORT="${PUSHER_PORT}"
+VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"' > /var/www/laravel-praktikum-jarkom/.env
+cd /var/www/laravel-praktikum-jarkom && php artisan key:generate
+cd /var/www/laravel-praktikum-jarkom && php artisan config:cache
+cd /var/www/laravel-praktikum-jarkom && php artisan migrate
+cd /var/www/laravel-praktikum-jarkom && php artisan db:seed
+cd /var/www/laravel-praktikum-jarkom && php artisan storage:link
+cd /var/www/laravel-praktikum-jarkom && php artisan jwt:secret
+cd /var/www/laravel-praktikum-jarkom && php artisan config:clear
+chown -R www-data.www-data /var/www/laravel-praktikum-jarkom/storage
+```
+
+Lakukan konfigurasi ``nginx`` pada worker dimana port nya adalah sebagai berikut 
+
+```sh
+192.183.4.1:8001; # Fern 
+192.183.4.2:8002; # Flamme
+192.183.4.3:8003; # Frieren
+```
+
+Konfigurasi ``nginx`` 
+
+```sh
+echo 'server {
+    listen <X>;
+
+    root /var/www/laravel-praktikum-jarkom/public;
+
+    index index.php index.html index.htm;
+    server_name _;
+
+    location / {
+            try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # pass PHP scripts to FastCGI server
+    location ~ \.php$ {
+      include snippets/fastcgi-php.conf;
+      fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+    }
+
+    location ~ /\.ht {
+            deny all;
+    }
+
+    error_log /var/log/nginx/implementasi_error.log;
+    access_log /var/log/nginx/implementasi_access.log;
+}' > /etc/nginx/sites-available/laravel-worker
+```
+
+``<X>`` adalah port masing-masing Worker.
 
 
+### Result
+Testing sebagai berikut
 
+```sh
+lynx localhost:[PORT]
+```
 
+## Soal 15
+### Script
+```sh
+echo '
+{
+  "username": "kelompokB10",
+  "password": "passwordB10"
+}' > register.json
+```
+
+Lalu, lakukanlah perintah berikut dari sisis client ``Revolte`` 
+```sh
+ab -n 100 -c 10 -p register.json -T application/json http://192.183.4.1:8001/api/auth/register
+```
+
+### Result
+
+## Soal 16
+### Script
+```sh
+echo '
+{
+  "username": "kelompokB10",
+  "password": "passwordB10"
+}' > login.json
+```
+
+Jalankan perintah berikut dari sisis client ``Revolte`` 
+```sh
+ab -n 100 -c 10 -p login.json -T application/json http://192.183.4.1:8001/api/auth/login
+```
+### Result
+
+## Soal 17
+### Script
+```sh
+curl -X POST -H "Content-Type: application/json" -d @login.json http://192.183.4.1:8001/api/auth/login > login_output.txt
+```
+Jalankan perintah berikut untuk melakukan set ``token`` secara global
+
+```sh
+token=$(cat login_output.txt | jq -r '.token')
+```
+
+Lakukan testing
+
+```sh
+ab -n 100 -c 10 -H "Authorization: Bearer $token" http://192.183.4.1:8001/api/me
+```
+
+### Result
+
+## Soal 18
+### Script
+```sh
+echo 'upstream worker {
+    server 192.183.4.1:8001;
+    server 192.183.4.2:8002;
+    server 192.183.4.3:8003;
+}
+
+server {
+    listen 80;
+    server_name riegel.canyon.b10.com www.riegel.canyon.b10.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+} 
+' > /etc/nginx/sites-available/laravel-worker
+
+ln -s /etc/nginx/sites-available/laravel-worker /etc/nginx/sites-enabled/laravel-worker
+
+service nginx restart
+```
+### Result
+```sh
+ab -n 100 -c 10 -p login.json -T application/json http://www.riegel.canyon.b10.com/api/auth/login
+```
+
+## Soal 19
+### Script
+
+**Script 1**
+```sh
+# Setup Awal
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+**Script 2**
+```sh
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 25
+pm.start_servers = 5
+pm.min_spare_servers = 3
+pm.max_spare_servers = 10' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+**Script 3**
+```sh
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 8
+pm.min_spare_servers = 5
+pm.max_spare_servers = 15' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+**Script 4**
+```sh
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 75
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 20' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+### Result
+
+## Soal 20
+### Script
+```sh
+echo 'upstream worker {
+    least_conn;
+    server 192.183.4.1:8001;
+    server 192.183.4.2:8002;
+    server 192.183.4.3:8003;
+}
+
+server {
+    listen 80;
+    server_name riegel.canyon.b10.com www.riegel.canyon.b10.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+} 
+' > /etc/nginx/sites-available/laravel-worker
+
+service nginx restart
+```
+
+```sh
+pm = dynamic
+pm.max_children = 75
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 20
+```
+### Result
