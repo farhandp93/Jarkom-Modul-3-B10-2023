@@ -472,6 +472,36 @@ Jalankan perintah berikut pada client ``Revolte``
 ```sh
 ab -n 200 -c 10 http://www.granz.channel.b10.com/ 
 ```
+#### Round Robin
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/08483f71-950d-42fa-81b3-95be6800893d)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/cd3ed56d-74b7-4a2f-a2b2-d9235b842baa)
+
+#### Least Connection
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/9dead566-e369-441a-a81a-f1da0f717233)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/a02ae385-9ba9-42a2-bb3e-75577678098f)
+
+#### IP Hash
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/737e466c-9413-4bd5-8ba7-681a1fec2ff1)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/58107d7d-e0f0-4d07-875a-313f0c61e3e0)
+
+#### Generic Hash
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/56eb2549-302e-4f80-9480-af1a3d1894df)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/24cb6a76-bf54-4ec8-9941-3149824a9d66)
+
+#### Grafik
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/fedf7bab-ebe0-4444-bf85-04d64190c26f)
+
+
+
+
+
+
+
+
+
+
+
+
 ### Result 
 
 ## Soal 9
