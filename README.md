@@ -583,6 +583,8 @@ GRANT ALL PRIVILEGES ON *.* TO 'kelompokb10'@'localhost';
 FLUSH PRIVILEGES;
 ```
 ### Result
+![WhatsApp Image 2023-11-19 at 17 33 03_9ffad5ea](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/8d8b90f0-ca1b-4416-bf27-f20e8465d086)
+![WhatsApp Image 2023-11-19 at 17 40 44_0bcc286d](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/43516461-af30-4bdd-9a94-819a77a8b73a)
 
 ## Soal 14
 ### Script
@@ -674,19 +676,13 @@ cd /var/www/laravel-praktikum-jarkom && php artisan config:clear
 chown -R www-data.www-data /var/www/laravel-praktikum-jarkom/storage
 ```
 
-Lakukan konfigurasi ``nginx`` pada worker dimana port nya adalah sebagai berikut 
 
-```sh
-192.183.4.1:8001; # Fern 
-192.183.4.2:8002; # Flamme
-192.183.4.3:8003; # Frieren
-```
 
 Konfigurasi ``nginx`` 
 
 ```sh
 echo 'server {
-    listen <X>;
+    listen 8003;
 
     root /var/www/laravel-praktikum-jarkom/public;
 
@@ -711,16 +707,22 @@ echo 'server {
     access_log /var/log/nginx/implementasi_access.log;
 }' > /etc/nginx/sites-available/laravel-worker
 ```
-
-``<X>`` adalah port masing-masing Worker.
-
+```sh
+8001; # Fern 
+8002; # Flamme
+8003; # Frieren
+```
 
 ### Result
-Testing sebagai berikut
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/80021370-5521-438c-a9f7-5ddc57d64d45)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/63405e08-1f11-4fcb-b915-d50daddab7c9)
 
-```sh
-lynx localhost:[PORT]
-```
+Test :
+``` sh
+lynx localhost:8003
+``` 
+untuk #Frieren
+
 
 ## Soal 15
 ### Script
@@ -737,7 +739,9 @@ Lalu, lakukanlah perintah berikut dari sisis client ``Revolte``
 ab -n 100 -c 10 -p register.json -T application/json http://192.183.4.1:8001/api/auth/register
 ```
 
+
 ### Result
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/25ca4d88-d84a-46a9-b6bc-b7c187404452)
 
 ## Soal 16
 ### Script
@@ -754,6 +758,8 @@ Jalankan perintah berikut dari sisis client ``Revolte``
 ab -n 100 -c 10 -p login.json -T application/json http://192.183.4.1:8001/api/auth/login
 ```
 ### Result
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/312c56f7-de12-4646-bed2-0725b24dc42a)
+
 
 ## Soal 17
 ### Script
@@ -773,6 +779,7 @@ ab -n 100 -c 10 -H "Authorization: Bearer $token" http://192.183.4.1:8001/api/me
 ```
 
 ### Result
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/80aa8d6d-f885-44d2-acbd-57793ead8f88)
 
 ## Soal 18
 ### Script
@@ -801,6 +808,7 @@ service nginx restart
 ```sh
 ab -n 100 -c 10 -p login.json -T application/json http://www.riegel.canyon.b10.com/api/auth/login
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/bfc44076-9844-4fa4-adc3-40ed91d91158)
 
 ## Soal 19
 ### Script
