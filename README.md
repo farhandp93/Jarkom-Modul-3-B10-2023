@@ -1,3 +1,4 @@
+File gns = https://drive.google.com/drive/folders/1553NHa_tA_KUILGZ7cs_RfeqjYUNkBXn?usp=drive_link
 # Jarkom-Modul-3-B10-2023
 
 **Praktikum Jaringan Komputer Modul 3 Tahun 2023**
