@@ -315,6 +315,7 @@ OPTIONS=""' > /etc/default/isc-dhcp-relay
 
 service isc-dhcp-relay start 
 ```
+![WhatsApp Image 2023-11-19 at 13 27 54_7c930469](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/08f52319-3ec3-4c4b-8e4e-0f4a1e12843b)
 
 Lalu pada file ``/etc/sysctl.conf`` lakukan uncommented pada ``net.ipv4.ip_forward=1``
 
@@ -353,16 +354,16 @@ subnet 192.183.4.0 netmask 255.255.255.0 {
 service isc-dhcp-server restart
 ```
 ### Result
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/c14090e5-069b-4816-999a-9b9180b20145)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/916e1286-a62f-4d50-a995-8ec3c04ba110)
+
 
 ## Soal 6
 ```sh
 wget -O '/var/www/granz.channel.b10.com' 'https://drive.google.com/u/0/uc?id=1ViSkRq7SmwZgdK64eRbr5Fm1EGCTPrU1&export=download'
 unzip -o /var/www/granz.channel.b10.com -d /var/www/
 rm /var/www/granz.channel.b10.com
-mv /var/www/modul-3 /var/www/granz.channel.b1o.com
-```
-### Script
-```sh 
+mv /var/www/modul-3 /var/www/granz.channel.b1o.com 
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/granz.channel.b10.com
 ln -s /etc/nginx/sites-available/granz.channel.b10.com /etc/nginx/sites-enabled/
 rm /etc/nginx/sites-enabled/default
@@ -380,7 +381,7 @@ echo 'server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.3-fpm.sock;  # Sesuaikan versi PHP dan socket
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock; 
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
@@ -390,6 +391,7 @@ service nginx restart
 ```
 
 ### Result 
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/77160555-4c1c-44e2-b256-e862c4297a1d)
 
 ## Soal 7
 ### Script
@@ -406,7 +408,7 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      riegel.canyon.b10.com.
-@       IN      A       192.183.2.2     ; IP LB Eiken
+@       IN      A       192.183.2.2     ; IP LB Eisen
 www     IN      CNAME   riegel.canyon.b10.com.' > /etc/bind/sites/riegel.canyon.b10.com
 
 echo '
@@ -421,7 +423,7 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      granz.channel.b10.com.
-@       IN      A       192.183.2.2     ; IP LB Eiken
+@       IN      A       192.183.2.2     ; IP LB Eisen
 www     IN      CNAME   granz.channel.b10.com.' > /etc/bind/sites/granz.channel.b10.com
 ```
 ```sh 
@@ -459,6 +461,10 @@ Jalankan perintah berikut pada client ``Revolte``
 ```sh
 ab -n 1000 -c 100 http://www.granz.channel.b10.com/ 
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/1bdf8076-c899-45c8-914c-80a5e0bc4b23)
+
+Requests per second:     2019.86 [#/sec] (mean)
+
 
 ## Soal 8
 ### Script
