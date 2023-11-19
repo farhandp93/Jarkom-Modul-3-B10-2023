@@ -498,6 +498,52 @@ Jalankan perintah berikut pada client ``Revolte``
 ```sh
 ab -n 100 -c 10 http://www.granz.channel.b10.com/ 
 ```
+#### 3 worker
+Lawine
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/19a5ffaa-d709-4a57-875b-fb640136ffd9)
+
+Lugner
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/50935d86-7666-4790-bc31-90001e8dbaff)
+
+Linie
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/f34b2f3a-3b73-462a-91d4-9afcd43a4647)
+
+Client
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/7b098983-41c2-4fe5-9f18-2534ad214d54)
+
+#### 2 worker
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/bea06fb7-217e-4180-a756-f4a47554bce0)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/8b89f23b-7a29-4f61-9a22-1b46928d48e8)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/8564039e-ad01-4185-bfc8-8cd72bc96d0c)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/2e7d0314-208f-4fe6-b686-5d9d59407a5a)
+
+#### 1 worker
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/e8070521-9b87-44f7-8134-2d9f939d687c)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/105ea761-abf2-4630-9de3-9f9bb9b1a505)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/82a63b1c-18f2-4674-a800-1593527dce5a)
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/b6393289-b624-406d-a5f0-d2f721059fda)
+
+#### Grafik
+
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/fe626d08-fde2-4210-8d1a-6335b6c4579d)
+
+
+3 worker = 1768
+2 worker = 2183
+1 worker = 2521
+
 
 ### Result
 
@@ -809,7 +855,7 @@ service nginx restart
 ab -n 100 -c 10 -p login.json -T application/json http://www.riegel.canyon.b10.com/api/auth/login
 ```
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/bfc44076-9844-4fa4-adc3-40ed91d91158)
-
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/27bf8513-4f35-43a8-b30b-ccc0d2f5ffca)
 ## Soal 19
 ### Script
 
@@ -835,6 +881,8 @@ pm.max_spare_servers = 3' > /etc/php/8.0/fpm/pool.d/www.conf
 
 service php8.0-fpm restart
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/893687b2-23dd-4bfa-98df-d984952fd3a0)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/0ae91138-2f15-42b6-9aa1-39d841d8e655)
 
 **Script 2**
 ```sh
@@ -857,6 +905,10 @@ pm.max_spare_servers = 10' > /etc/php/8.0/fpm/pool.d/www.conf
 
 service php8.0-fpm restart
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/86006641-6d73-44a3-be93-b4df8e4f5c1b)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/03001003-7c1a-467e-8421-71a3414a1150)
+
+
 
 **Script 3**
 ```sh
@@ -879,30 +931,9 @@ pm.max_spare_servers = 15' > /etc/php/8.0/fpm/pool.d/www.conf
 
 service php8.0-fpm restart
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/5c97e7bd-f377-480b-8500-dc295f55824f)
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/39ab2be4-b7f1-4cdf-8330-4d50d302526c)
 
-**Script 4**
-```sh
-echo '[www]
-user = www-data
-group = www-data
-listen = /run/php/php8.0-fpm.sock
-listen.owner = www-data
-listen.group = www-data
-php_admin_value[disable_functions] = exec,passthru,shell_exec,system
-php_admin_flag[allow_url_fopen] = off
-
-; Choose how the process manager will control the number of child processes.
-
-pm = dynamic
-pm.max_children = 75
-pm.start_servers = 10
-pm.min_spare_servers = 5
-pm.max_spare_servers = 20' > /etc/php/8.0/fpm/pool.d/www.conf
-
-service php8.0-fpm restart
-```
-
-### Result
 
 ## Soal 20
 ### Script
