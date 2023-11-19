@@ -492,18 +492,6 @@ ab -n 200 -c 10 http://www.granz.channel.b10.com/
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/fedf7bab-ebe0-4444-bf85-04d64190c26f)
 
 
-
-
-
-
-
-
-
-
-
-
-### Result 
-
 ## Soal 9
 ### Script
 Jalankan perintah berikut pada client ``Revolte``
@@ -519,10 +507,10 @@ ab -n 100 -c 10 http://www.granz.channel.b10.com/
 mkdir /etc/nginx/rahasisakita
 htpasswd -c /etc/nginx/rahasisakita/htpasswd netics
 ```
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/e21431b8-3f4a-4ce6-83fc-d431e5bb5ab7)
 
 Masukkan password ``ajkb10``
 
-Jika sudah ``password`` & ``re-type password``. Tambahkan perintah berikut pada setup nginx.
 
 ```sh
 auth_basic "Restricted Content";
@@ -531,3 +519,24 @@ auth_basic_user_file /etc/nginx/rahasisakita/htpasswd;
 
 ### Result
 Saat mengakses url ``http://www.granz.channel.b10.com/`` terdapat unauthorized sebagai berikut
+
+
+
+## Soal 11
+Script /etc/nginx/sites-available/lb_php pada Eisen
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/8f586369-148b-4bae-bd05-fca1317ada09)
+
+Tes dengan ``lynx www.granz.channel.b10.com/its`` di Client
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/59f3514c-3e6f-47c7-a2ed-f0926ed5b2b9)
+
+## Soal 12
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/1007c538-d171-4dfe-96df-e8df8f3ca2bd)
+IP (tidak allow) Deny
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/560f9bb1-722f-47e9-bd78-b97545f131cc)
+FIXED address pada Himmel
+![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/b1e6dc91-e4e1-4a35-a530-6d6fe2d183cd)
+
+
+
+
+
