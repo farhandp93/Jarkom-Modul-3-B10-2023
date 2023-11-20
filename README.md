@@ -321,7 +321,7 @@ service isc-dhcp-relay start
 Lalu pada file ``/etc/sysctl.conf`` lakukan uncommented pada ``net.ipv4.ip_forward=1``
 
 Restart seluruh client untuk dapat melakukan leasing IP dari DHCP Server
-### Result
+
 
 ## Soal 5
 ### Script
@@ -546,7 +546,7 @@ Client
 1 worker = 2521
 
 
-### Result
+
 
 ## Soal 10
 ### Script
@@ -565,7 +565,7 @@ auth_basic_user_file /etc/nginx/rahasisakita/htpasswd;
 ```
 
 ### Result
-Saat mengakses url ``http://www.granz.channel.b10.com/`` terdapat unauthorized sebagai berikut
+Akses url ``http://www.granz.channel.b10.com/``  akan terdapat unauthorized
 
 
 
@@ -857,6 +857,7 @@ ab -n 100 -c 10 -p login.json -T application/json http://www.riegel.canyon.b10.c
 ```
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/bfc44076-9844-4fa4-adc3-40ed91d91158)
 ![image](https://github.com/farhandp93/Jarkom-Modul-3-B10-2023/assets/114125438/27bf8513-4f35-43a8-b30b-ccc0d2f5ffca)
+
 ## Soal 19
 ### Script
 
@@ -966,4 +967,4 @@ pm.start_servers = 10
 pm.min_spare_servers = 5
 pm.max_spare_servers = 20
 ```
-### Result
+
